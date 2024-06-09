@@ -1,0 +1,88 @@
+#include <AFMotor.h> 
+
+#define  Front A0 
+#define  Back  A1
+#define  Left  A2
+#define  Right A3
+
+AF_DCMotor front_left(1, MOTOR12_64KHZ);
+AF_DCMotor rear_left(2, MOTOR12_64KHZ);
+AF_DCMotor front_right(3, MOTOR12_64KHZ);
+AF_DCMotor rear_right(4, MOTOR12_64KHZ);
+
+
+void setup() {
+pinMode(Front,INPUT);
+pinMode(Back,INPUT);
+pinMode(Left,INPUT);  
+pinMode(Right,INPUT);
+Serial.begin(9600);
+}
+
+void loop() {
+
+//FORWARD
+if(digitalRead(A0) == HIGH ){ 
+front_left.setSpeed(180);
+rear_left.setSpeed(180);
+front_right.setSpeed(180);
+rear_right.setSpeed(180);
+
+front_left.run(FORWARD);       
+front_right.run(FORWARD);  
+rear_left.run(FORWARD); 
+rear_right.run(FORWARD);          
+Serial.println("FORWARD");
+}
+
+//BACKWARD
+if(digitalRead(A1) == HIGH ){ 
+front_left.setSpeed(180);
+rear_left.setSpeed(180);
+front_right.setSpeed(180);
+rear_right.setSpeed(180);
+
+front_left.run(BACKWARD);       
+front_right.run(BACKWARD);       
+rear_left.run(BACKWARD); 
+rear_right.run(BACKWARD); 
+Serial.println("BACKWARD");           
+}
+
+//LEFT
+if(digitalRead(A2)==HIGH){ 
+front_left.setSpeed(200);
+rear_left.setSpeed(200);
+front_right.setSpeed(200);
+rear_right.setSpeed(200);
+
+front_left.run(FORWARD);       
+front_right.run(FORWARD);       
+rear_left.run(BACKWARD); 
+rear_right.run(BACKWARD); 
+Serial.println("LEFTWARD");  
+}
+
+//RIGHT
+if(digitalRead(A3)==HIGH){ 
+front_left.setSpeed(200);
+rear_left.setSpeed(200);
+front_right.setSpeed(200);
+rear_right.setSpeed(200);
+
+front_left.run(BACKWARD);       
+front_right.run(BACKWARD);       
+rear_left.run(FORWARD); 
+rear_right.run(FORWARD);
+Serial.println("RIGHTWARD");   
+}
+
+//STOP
+if(digitalRead(A0)==LOW && digitalRead(A1)==LOW && digitalRead(A2)==LOW && digitalRead(A3)==LOW){
+  front_left.run(RELEASE);     
+  rear_left.run(RELEASE); 
+  front_right.run(RELEASE);  
+  rear_right.run(RELEASE);    
+  Serial.println("STOP");
+  }
+}
